@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  rabbitmq-server:
+    image: hub.hamdocker.ir/library/rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "brabbit"
+    ports:
+      - "127.0.0.1:5673:5672"
+      - "127.0.0.1:15673:15672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq/mnesia
+
+  python-service:
+    build: ./python-service
+    depends_on:
+      - rabbitmq-server
+    tty: true
+
+    ports:
+      - 3000:3000
+    volumes:
+      - ./python-service:/python-service
+
+
+  go-service:
+    build: ./go-service
+    depends_on:
+      - rabbitmq-server
+
+    tty: true
+
+    volumes:
+      - ./go-service:/go-service
+
+volumes:
+  python-service:
+  go-service:
