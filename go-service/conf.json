@@ -1,0 +1,4 @@
+{
+    "DEBUG": true,
+    "AMQP_URL": "amqp://rabbitmq:SWQOKODSQALCLrabbmqNMEQGrabbmq@localhost:5672/",
+}

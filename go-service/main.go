@@ -3,18 +3,24 @@ package main
 import (
     "fmt"
     "log"
+    "os"
 
     "github.com/streadway/amqp"
 )
 
-func failOnError(err, error, msg string) {
-    if err != nill {
+func failOnError(err error, msg string) {
+    if err != nil {
         panic(fmt.Sprintf("%s: %s", msg, err))
     }
 }
 
 func main() {
-    conn, err = amqp.Dial("amqp://rabbitmq:brabbit@rabbitmq-server:5672/")
+    amqpUrl := os.Getenv("AMQP_URL")
+    if amqpUrl == nil { 
+        amqpUrl ="amqp://rabbitmq:brabbit@rabbitmq-server:5672/"
+    }
+
+    conn, err = amqp.Dial(amqpUrl)
     failOnError(err, "Error connecting to the broker")
     
     defer conn.Close()
